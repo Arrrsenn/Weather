@@ -8,17 +8,16 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser {
+public class Parser{
 
     private final Pattern pattern = Pattern.compile("\\d{2}\\.\\d{2}");
 
     private static Document getPage() throws IOException {
         String url = "https://world-weather.ru/pogoda/russia/moscow/7days/";
-        Document page = Jsoup.parse(new URL(url), 5000);
-        return page;
+        return Jsoup.parse(new URL(url), 5000);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         Document page = getPage();
         Elements tableWt = page.select("div[class=weather-short]");
         Elements names = tableWt.select("table[class=weather-today short]");
@@ -51,11 +50,4 @@ public class Parser {
         System.out.println();
     }
 
-    private String getDateFromString(String stringDate) throws Exception {
-        Matcher matcher = pattern.matcher(stringDate);
-        if (matcher.find()) {
-            return matcher.group();
-        }
-        throw new Exception("Can't extract date from string");
-    }
 }
